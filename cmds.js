@@ -72,7 +72,7 @@ exports.testCmd = (rl, id) => {
           log(`Su respuesta es correcta`);
           biglog('Correcta', 'green');
         } else {
-          log(`Su respuesta es correcta`);
+          log(`Su respuesta es incorrecta`);
           biglog('Incorrecta', 'red');
         }
         rl.prompt();
