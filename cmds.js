@@ -69,9 +69,11 @@ exports.testCmd = (rl, id) => {
       const quiz = model.getByIndex(id);
       rl.question(`${colorize(quiz.question, 'red')}: `, answer => {
         if (quiz.answer.toLowerCase() === answer.trim().toLowerCase()){
-          biglog('Correcto', 'green');
+          log(`Su respuesta es correcta`);
+          biglog('Correcta', 'green');
         } else {
-          biglog('Incorrecto', 'red');
+          log(`Su respuesta es correcta`);
+          biglog('Incorrecta', 'red');
         }
         rl.prompt();
       });
