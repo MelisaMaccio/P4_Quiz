@@ -188,13 +188,13 @@ exports.playCmd = (rl) => {
         .then(a => {
           if (quiz.answer.toLowerCase() === a.trim().toLowerCase()){
             score++;
-            log(`${colorize('Correcto', 'green')} - Llevas ${colorize(score, 'yellow')} aciertos`);
+            log(`${colorize('CORRECTO', 'green')} - Lleva ${colorize(score, 'yellow')} aciertos`);
             toBeAns.splice(id, 1);  //Quitar id de toBeAns
             playOne();
             rl.prompt();
           } else {
-            log(`${colorize('Incorrecto', 'red')}`);
-            log(`Fin del juego. Tu resultado es: `);
+            log(`${colorize('INCORRECTO', 'red')}`);
+            log(`Fin del juego. Aciertos: ${score}`);
             biglog(score, 'yellow');
             rl.prompt();
           }
