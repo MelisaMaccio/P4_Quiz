@@ -151,50 +151,41 @@ exports.playCmd = (rl) => {
   log('Jugar', 'red');
   let score = 0;
   let toBeAns = [];
+  let quizLeft = [];
   let i = 0;
   let max = 0;
  
-  //Meter ids en toBeAns
-  /*Sequelize.models.sync()
-  .then(() => Sequelize.models.quiz.count())
-  .then(count => {
-    if(count) {
-      for (i=0; i < models.quiz.count(); i++) {
-        toBeAns[i] = i;
-      }
-    }
+  models.quiz.findAll()
+  .each(quiz => {
+    quizLeft.push(quiz);
   })
-  .catch(error => {
-    console.log(error);
-  });*/
-  models.quiz.count()
-  .then(count => {
-    for(i; i < count; i++){
-      toBeAns[i]=i;
-     // log(`${count}`);
+  .then(() => {
+    
+    for (i; i < quizLeft.length; i++) {
+      toBeAns.push(i);
     }
-    /*toBeAns=quizzes;*/
-  
-  const playOne = () => {
-    let id = Math.floor(Math.random()*(toBeAns.length));
-    //Pregunta de id
-    if (toBeAns.length === 0){
-      log(`No quedan preguntas por responder`);
-      log(`${max}`);
-      log(`Fin del juego. Tu resultado es: `);
-      biglog(score, 'yellow');
-      rl.prompt();
-    } else {
-      validateId(id)
-      .then(id => models.quiz.findById(toBeAns[id]))
-      .then(quiz => {
-        if(!quiz) {
-        //throw new Error(`No existe un quiz asociado al id = ${id}`);
-        playOne();
+    
+    const playOne = () => {
+      let id = Math.floor(Math.random()*(toBeAns.length));
+      //Pregunta de id
+      if (toBeAns.length === 0){
+        log(`No quedan preguntas por responder`);
+        log(`Fin del juego. Tu resultado es: `);
+        biglog(score, 'yellow');
         rl.prompt();
-        } else {
+      } else {
+        const quiz = quizLeft[toBeAns[id]];
+      /*  validateId(id)
+        .then(id => models.quiz.findById(toBeAns[id]))
+        .then(quiz => {
+          if(!quiz) {
+          //throw new Error(`No existe un quiz asociado al id = ${id}`);
+          playOne();
+          rl.prompt();
+          }
+        });*/
         makeQuestion(rl, `${colorize(quiz.question, 'red')}: `)
-        .then(a =>{
+        .then(a => {
           if (quiz.answer.toLowerCase() === a.trim().toLowerCase()){
             score++;
             log(`${colorize('Correcto', 'green')} - Llevas ${colorize(score, 'yellow')} aciertos`);
@@ -207,24 +198,22 @@ exports.playCmd = (rl) => {
             biglog(score, 'yellow');
             rl.prompt();
           }
+        })
+        .catch(Sequelize.ValidationError, error => {
+        errorlog('El quiz es erróneo: ');
+        error.errors.forEach(({message}) => errorlog(message));
+        })
+        .catch(error => {
+          errorlog(error.message);
+        })
+        .then(() => {
+          rl.prompt();
         });
       }
-      })
-      .catch(Sequelize.ValidationError, error => {
-      errorlog('El quiz es erróneo: ');
-      error.errors.forEach(({message}) => errorlog(message));
-      })
-      .catch(error => {
-        errorlog(error.message);
-      })
-      .then(() => {
-        rl.prompt();
-      });
     }
-  }
-  playOne();
-  rl.prompt();
-  });
+    playOne();
+    rl.prompt();
+    });
 };
 
 /* Edita quiz*/
