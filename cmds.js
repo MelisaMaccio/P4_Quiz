@@ -125,11 +125,11 @@ exports.testCmd = (rl, id) => {
     .then(a => {
       if (quiz.answer.toLowerCase() === a.trim().toLowerCase()){
         log(`Su respuesta es correcta`);
-        biglog('Correcta', 'green');
+        //biglog('Correcta', 'green');
         rl.prompt();
       } else {
         log(`Su respuesta es incorrecta`);
-        biglog('Incorrecta', 'red');
+        //biglog('Incorrecta', 'red');
         rl.prompt();
       }
     });
@@ -169,9 +169,9 @@ exports.playCmd = (rl) => {
       let id = Math.floor(Math.random()*(toBeAns.length));
       //Pregunta de id
       if (toBeAns.length === 0){
-        log(`No quedan preguntas por responder`);
-        log(`Fin del juego. Tu resultado es: `);
-        biglog(score, 'yellow');
+        log(` No quedan preguntas por responder `);
+        log(` Fin del juego. Tu resultado es: `);
+        //biglog(score, 'yellow');
         rl.prompt();
       } else {
         const quiz = quizLeft[toBeAns[id]];
@@ -188,14 +188,14 @@ exports.playCmd = (rl) => {
         .then(a => {
           if (quiz.answer.toLowerCase() === a.trim().toLowerCase()){
             score++;
-            log(`${colorize('CORRECTO', 'green')} - Lleva ${colorize(score, 'yellow')} aciertos`);
+            log(`${colorize(' CORRECTO ', 'green')} - Lleva ${colorize(score, 'yellow')} aciertos`);
             toBeAns.splice(id, 1);  //Quitar id de toBeAns
             playOne();
             rl.prompt();
           } else {
-            log(`${colorize('INCORRECTO', 'red')}`);
+            log(`${colorize(' INCORRECTO ', 'red')}`);
             log(`Fin del juego. Aciertos: ${score}`);
-            biglog(score, 'yellow');
+           // biglog(score, 'yellow');
             rl.prompt();
           }
         })
