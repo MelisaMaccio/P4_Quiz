@@ -148,7 +148,7 @@ exports.testCmd = (socket, rl, id) => {
 
 /* Juega*/
 exports.playCmd = (socket, rl) => {
-  log('Jugar', 'red');
+  log(socket, 'Jugar', 'red');
   let score = 0;
   let toBeAns = [];
   let quizLeft = [];
@@ -170,7 +170,7 @@ exports.playCmd = (socket, rl) => {
       //Pregunta de id
       if (toBeAns.length === 0){
         log(socket, ` No quedan preguntas por responder `);
-        log(socket, ` Fin del juego. Tu resultado es: `);
+        log(socket, ` Fin del juego. Tu resultado es: ${score}`);
         //biglog(score, 'yellow');
         rl.prompt();
       } else {
@@ -259,7 +259,7 @@ exports.deleteCmd = (socket, rl, id) => {
 
 /* Saca los créditos*/
 exports.creditsCmd = (socket, rl) => {
-  log("Autor de práctica");
-  log("Melisa Anahí Maccio Parigino", 'green');
+  log(socket, "Autor de práctica");
+  log(socket, "Melisa Anahí Maccio Parigino", 'green');
   rl.prompt();
 };
